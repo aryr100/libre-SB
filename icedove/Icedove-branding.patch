@@ -1,0 +1,15 @@
+diff --git a/comm/mail/confvars.sh b/comm/mail/confvars.sh
+index bbf6f2d..57d0097 100644
+--- a/comm/mail/confvars.sh
++++ b/comm/mail/confvars.sh
+@@ -3,8 +3,8 @@
+ # License, v. 2.0. If a copy of the MPL was not distributed with this
+ # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ 
+-MOZ_APP_BASENAME=Thunderbird
+-MOZ_APP_NAME=thunderbird
++MOZ_APP_BASENAME=Icedove
++MOZ_APP_NAME=icedove
+ MOZ_UPDATER=1
+ MOZ_THUNDERBIRD=1
+ MOZ_APP_STATIC_INI=1
