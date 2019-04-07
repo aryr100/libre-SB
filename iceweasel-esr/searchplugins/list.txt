@@ -1,0 +1,7 @@
+duckduckgo-html
+duckduckgo-lite
+internet-archive
+searx
+seeks
+wikipedia-en
+yacy

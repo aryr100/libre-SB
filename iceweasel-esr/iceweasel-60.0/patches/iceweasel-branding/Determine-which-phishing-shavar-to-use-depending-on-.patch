@@ -1,0 +1,36 @@
+From: André Silva <emulatorman@parabola.nu>
+Date: Sat, 19 Nov 2016 02:54:21 -0300
+Subject: Determine which phishing shavar to use depending on
+ MOZ_OFFICIAL_BRANDING
+
+---
+ modules/libpref/init/all.js | 4 +---
+ modules/libpref/moz.build   | 3 +++
+ 2 files changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/modules/libpref/init/all.js b/modules/libpref/init/all.js
+index 11bfba3..ed817aa 100644
+--- a/modules/libpref/init/all.js
++++ b/modules/libpref/init/all.js
+@@ -5508,9 +5508,7 @@ pref("dom.mapped_arraybuffer.enabled", t
+ 
+ // The tables used for Safebrowsing phishing and malware checks
+ pref("urlclassifier.malwareTable", "goog-malware-proto,goog-unwanted-proto,test-harmful-simple,test-malware-simple,test-unwanted-simple");
+-#ifdef MOZILLA_OFFICIAL
+-// In official builds, we are allowed to use Google's private phishing
+-// list (see bug 1288840).
++#ifdef MOZ_OFFICIAL_BRANDING
+ pref("urlclassifier.phishTable", "goog-phish-proto,test-phish-simple");
+ #else
+ pref("urlclassifier.phishTable", "googpub-phish-proto,test-phish-simple");
+diff --git a/modules/libpref/moz.build b/modules/libpref/moz.build
+index 1c2c13e..7783e9d 100644
+--- a/modules/libpref/moz.build
++++ b/modules/libpref/moz.build
+@@ -44,3 +44,6 @@ DEFINES['MOZ_WIDGET_TOOLKIT'] = CONFIG['MOZ_WIDGET_TOOLKIT']
+ FINAL_TARGET_PP_FILES += [
+     'greprefs.js',
+ ]
++
++if CONFIG['MOZ_OFFICIAL_BRANDING']:
++    DEFINES['MOZ_OFFICIAL_BRANDING'] = True
