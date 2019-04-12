@@ -151,7 +151,7 @@ cd $CWD
 tar xf iceweasel_${_brandingver}-${_brandingrel}.branding.tar.xz
 
 cd $TMP
-rm -rf firefox-$VERSION
+rm -rf firefox-$RELEASEVER
 # Unpack this in a subdirectory to prevent changing permissions on /tmp:
 rm -rf firefox-unpack
 mkdir firefox-unpack
@@ -278,7 +278,7 @@ fi
 export MOZ_PHOENIX="1"
 export MOZ_PACKAGE_JSSHELL="1"
 export CFLAGS="$SLKCFLAGS"
-export CXXFLAGS="$SLKCFLAGS -fno-delate-null-pointer-checks"
+export CXXFLAGS="$SLKCFLAGS -fno-delete-null-pointer-checks"
 export MOZ_MAKE_FLAGS="$NUMJOBS"
 
 # Clear some variables that could break the build
