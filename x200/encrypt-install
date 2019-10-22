@@ -1,0 +1,69 @@
+Freenix (Slackware) Encrypt install
+###############################################
+Erase disk 
+- [ ] cryptsetup open --type plain -d /dev/urandom /dev/sda erase_disk
+Now fill the container with zeros.
+- [ ] dd if=/dev/zero of=/dev/mapper/erase_disk bs=1M
+ close the container
+- [ ] cryptsetup close erase_disk
+##################
+Second chose is  cfdisk
+select label type = dos
+2 partitions
+150M + boot (sda1)
+full disk (sda2)
+###
+now encrypt
+- [ ] cryptsetup -s 256 -y luksFormat /dev/sdx2
+cap YES
+enter password
+###
+cryptsetup luksOpen /dev/sda2 vault0 
+enter PW
+###
+First step for LVM setup is to create our physical volume.
+- [ ] pvcreate /dev/mapper/vault0
+- [ ] vgcreate matrix /dev/mapper/vault0
+- [ ] lvcreate -L 8G -n swap matrix
+create root
+- [ ] lvcreate -L 15G -n root matrix
+create home
+- [ ] lvcreate -l 100%FREE -n home matrix
+###
+vgscan --mknodes
+vgchange -ay
+###
+active swap before setup
+mkswap /dev/matrix/swap
+###
+Installation = run setup
+addswap
+add root w/ext4 (/dev/matrix/root)
+add boot w/ext2 mount point /boot  (/dev/sda1)
+add home w/xfs mount point /home (/dev/matrix/home)
+after installing OS exit do not reboot
+###
+chroot /mnt
+- [ ] grub-install /dev/sda (non-libreboot devices)
+- [ ] mkdir /boot/grub (non-libreboot)
+- [ ] grub-mkconfig -o /boot/grub/grub.cfg (non-libreboot)
+- [ ] grub-mkconfig -o /boot/grub/libreboot_grub.cfg
+edit the /boot/grub/libreboot_grub.cfg or /grub.cfg (non-libreboot) file and then just 
+after the first echo 'Loading Linux 4.4.14 ...' change
+vim /boot/grub/grub.cfg 
+linux /vmlinuz-huge-4.4.14 root=/dev/mapper/matrix-root ro
+change to
+linux /vmlinuz-generic-4.4.14 root=/dev/mapper/matrix-root ro
+exit
+reboot
+
+
+
+
+
+
+
+
+
+
+
